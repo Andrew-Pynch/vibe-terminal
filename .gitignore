@@ -1,0 +1,30 @@
+# Node / Bun
+node_modules
+.turbo
+.next
+dist
+build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Expo / React Native
+.expo
+.expo-shared
+
+# Rust
+target
+
+# Env / config
+.env
+.env.*
+
+# IDE
+.idea
+.vscode
+
+# Agent Hub data
+.agent-hub

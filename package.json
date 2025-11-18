@@ -1,0 +1,20 @@
+{
+  "name": "agent-orchestrator-hub",
+  "private": true,
+  "packageManager": "bun@1.1.5",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "^2.0.8",
+    "typescript": "^5.4.5"
+  }
+}
