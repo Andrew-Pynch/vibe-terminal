@@ -5,4 +5,5 @@ pub mod profiles;
 pub mod project_sessions;
 pub mod sessions;
 pub mod state;
+pub mod utils;
 pub mod vibe_project;
