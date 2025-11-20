@@ -20,3 +20,9 @@ uuid = { version = "1.8", features = ["v4", "serde"] }
 parking_lot = "0.12"
 async-stream = "0.3"
 hyper = { version = "1.2", features = ["http1", "http2"] }
+clap = { version = "4.5" }
+dirs = "5.0"
+
+[dev-dependencies]
+tempfile = "3.10"
+tower = "0.4"

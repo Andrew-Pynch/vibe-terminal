@@ -27,6 +27,11 @@
         "^typecheck"
       ],
       "outputs": []
+    },
+    "@agent-hub/vibe-web#build": {
+      "outputs": [
+        "apps/vibe-web/.next/**"
+      ]
     }
   }
 }
