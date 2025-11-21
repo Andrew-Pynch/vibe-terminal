@@ -1,7 +1,8 @@
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use std::collections::HashMap; // Added this
+use std::collections::HashMap;
+use tracing::*;
 
 use crate::state::AppState;
 
@@ -65,11 +66,26 @@ pub fn create_or_get_session_for_project(
     // Spawn Root Orchestrator
     // Assuming 'node' is in PATH and gemini_adapter.js exists
     let command = "node".to_string();
-    let adapter_path = state.config.project_root.join("server").join("tests").join("scripts").join("gemini_adapter.js");
+    let adapter_path = state.server_root_dir.join("server").join("tests").join("scripts").join("gemini_adapter.js");
     let args = vec![
         adapter_path.to_str().unwrap_or_default().to_string(),
     ];
-    let instruction = "As the Root Orchestrator, your first task is to initialize the project and decide on the next steps.".to_string();
+    let instruction = r#"As the Root Orchestrator, your goal is to plan the development of this project.
+
+Analyze the project state.
+
+Output a JSON object with a 'tasks' array describing the next steps.
+Each task should have an 'id' (string), 'description' (string), and optional 'agent_type' (string).
+
+Example:
+```json
+{
+  "tasks": [
+    { "id": "init-1", "description": "Create README.md", "agent_type": "worker" }
+  ]
+}
+```
+"#.to_string();
     let env_vars = HashMap::new(); // For now, no specific env vars
 
     match state.agent_spawner.spawn_agent(

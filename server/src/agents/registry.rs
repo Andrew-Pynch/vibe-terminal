@@ -98,6 +98,23 @@ impl AgentRegistry {
             .cloned()
             .collect()
     }
+
+    /// Updates the status and result of an existing agent.
+    pub fn update_status_and_result(
+        &self,
+        agent_id: &str,
+        status: AgentStatus,
+        result: Option<String>,
+    ) -> Result<(), String> {
+        let mut agents = self.agents.lock().unwrap();
+        if let Some(agent) = agents.get_mut(agent_id) {
+            agent.status = status;
+            agent.result = result;
+            Ok(())
+        } else {
+            Err(format!("Agent with ID {} not found", agent_id))
+        }
+    }
 }
 
 #[cfg(test)]

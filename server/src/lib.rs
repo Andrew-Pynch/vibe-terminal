@@ -9,4 +9,5 @@ pub mod state;
 pub mod utils;
 pub mod vibe_project;
 pub mod agents;
+pub mod tasks;
 pub mod ws;

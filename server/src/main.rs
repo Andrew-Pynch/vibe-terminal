@@ -1,4 +1,7 @@
 use std::{collections::HashMap, net::SocketAddr, sync::Arc};
+use std::env;
+use std::path::PathBuf;
+use anyhow::Context;
 
 use agent_hub_server::{
     agents::registry::AgentRegistry,
@@ -11,7 +14,9 @@ use agent_hub_server::{
     sessions::SessionStore,
     state::AppState,
     ws,
-    agents::spawner::AgentSpawner, // Added this
+    agents::spawner::AgentSpawner,
+    agents::watcher::ResultWatcher,
+    agents::dispatcher::TaskDispatcher,
 };
 use axum::Router;
 use parking_lot::RwLock;
@@ -22,6 +27,8 @@ use tracing_subscriber::{fmt, EnvFilter};
 async fn main() -> anyhow::Result<()> {
     dotenv::dotenv().ok(); // Load .env file if it exists
     fmt().with_env_filter(EnvFilter::from_default_env()).init();
+
+    let server_root_dir = env::current_dir().context("Failed to get current directory")?;
 
     let config = ServerConfig::from_env()?;
     let profiles = Arc::new(ProfileCatalog::load(&config.prompt_profile_dir)?);
@@ -41,7 +48,9 @@ async fn main() -> anyhow::Result<()> {
     let global_registry = Arc::new(RwLock::new(registry));
     let project_sessions = Arc::new(RwLock::new(HashMap::<String, ProjectSession>::new()));
     let agents = AgentRegistry::new();
-    let agent_spawner = AgentSpawner::new(agents.clone(), config.project_root.clone().into()); // Added this
+    let agent_spawner = AgentSpawner::new(agents.clone(), server_root_dir.clone());
+    
+    let task_dispatcher = TaskDispatcher::new(agent_spawner.clone(), Arc::new(config.clone()));
 
     let state = AppState {
         config: config.clone(),
@@ -50,16 +59,17 @@ async fn main() -> anyhow::Result<()> {
         llms,
         global_registry,
         project_sessions,
-        agents: agents.clone(), // Clone agents for the watcher
-        agent_spawner, // Added this
+        agents: agents.clone(),
+        agent_spawner,
+        server_root_dir: server_root_dir.clone(),
     };
 
     // Initialize and spawn ResultWatcher
-    let watcher_base_dir = state.config.project_root.clone(); // Assuming project_root is the base dir
-    let result_watcher = crate::agents::watcher::ResultWatcher::new(
+    let result_watcher = ResultWatcher::new(
         state.agents.clone(),
-        state.project_sessions.clone(), // Pass project_sessions here
-        watcher_base_dir.into(),
+        state.project_sessions.clone(),
+        server_root_dir.clone(),
+        task_dispatcher,
     );
 
     tokio::spawn(async move {

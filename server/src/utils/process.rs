@@ -1,5 +1,5 @@
 use std::process::Command;
-use std::io::{self, Write};
+use std::io;
 
 /// Spawns a child process and captures its stdout and stderr.
 ///

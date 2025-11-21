@@ -1,5 +1,5 @@
 use std::path::{PathBuf, Path};
-use std::sync::{Arc, mpsc::channel};
+use std::sync::Arc;
 use notify::{Watcher, RecursiveMode, RecommendedWatcher, Config, EventKind, Event};
 use anyhow::{Result, Context};
 use tokio::fs; // For async file operations
@@ -9,11 +9,14 @@ use std::collections::HashMap;
 
 use crate::agents::registry::{AgentRegistry, AgentStatus};
 use crate::project_sessions::ProjectSession;
+use crate::agents::dispatcher::TaskDispatcher;
+use crate::tasks::TaskGraph;
 
 pub struct ResultWatcher {
     registry: AgentRegistry,
     project_sessions: Arc<RwLock<HashMap<String, ProjectSession>>>,
     base_dir: PathBuf,
+    dispatcher: TaskDispatcher,
 }
 
 impl ResultWatcher {
@@ -21,11 +24,13 @@ impl ResultWatcher {
         registry: AgentRegistry,
         project_sessions: Arc<RwLock<HashMap<String, ProjectSession>>>,
         base_dir: PathBuf,
+        dispatcher: TaskDispatcher,
     ) -> Self {
         ResultWatcher {
             registry,
             project_sessions,
             base_dir,
+            dispatcher,
         }
     }
 
@@ -61,47 +66,77 @@ impl ResultWatcher {
     async fn handle_event(&self, event: Event) -> Result<()> {
         if let EventKind::Create(notify::event::CreateKind::File) = event.kind {
             for path in event.paths {
-                if path.file_name().map_or(false, |name| name == "RESULT.md") {
-                    info!("Detected RESULT.md created: {:?}", path);
+                let file_name = path.file_name().and_then(|n| n.to_str());
 
-                    let parent_dir = path.parent().context("RESULT.md has no parent directory")?;
-                    let agent_id = parent_dir.file_name()
-                        .context("Agent directory has no name")?
-                        .to_str()
-                        .context("Agent directory name is not valid UTF-8")?
-                        .to_string();
+                match file_name {
+                    Some("RESULT.md") => {
+                        info!("Detected RESULT.md created: {:?}", path);
 
-                    let session_dir = parent_dir.parent().context("Agent directory has no parent")?;
-                    let session_id = session_dir.file_name()
-                        .context("Session directory has no name")?
-                        .to_str()
-                        .context("Session directory name is not valid UTF-8")?
-                        .to_string();
+                        let parent_dir = path.parent().context("RESULT.md has no parent directory")?;
+                        let agent_id = parent_dir.file_name()
+                            .context("Agent directory has no name")?
+                            .to_str()
+                            .context("Agent directory name is not valid UTF-8")?
+                            .to_string();
 
-                    info!("Extracted session_id: {}, agent_id: {}", session_id, agent_id);
+                        let session_dir = parent_dir.parent().context("Agent directory has no parent")?;
+                        let session_id = session_dir.file_name()
+                            .context("Session directory has no name")?
+                            .to_str()
+                            .context("Session directory name is not valid UTF-8")?
+                            .to_string();
 
-                    let result_content = fs::read_to_string(&path)
-                        .await
-                        .context(format!("Failed to read RESULT.md from {:?}", path))?;
+                        info!("Extracted session_id: {}, agent_id: {}", session_id, agent_id);
 
-                    // Update AgentRegistry
-                    let mut agents_guard = self.registry.agents.lock().unwrap();
-                    if let Some(agent) = agents_guard.get_mut(&agent_id) {
-                        info!("Updating status for agent {}: RESULT.md content: {}", agent_id, result_content);
-                        agent.status = AgentStatus::Completed; // For now, always completed.
-                        agent.result = Some(result_content.clone()); // Clone for project_sessions
-                    } else {
-                        error!("Agent with ID {} not found in registry.", agent_id);
-                    }
+                        let result_content = fs::read_to_string(&path)
+                            .await
+                            .context(format!("Failed to read RESULT.md from {:?}", path))?;
 
-                    // Update ProjectSession
-                    let mut project_sessions_guard = self.project_sessions.write();
-                    if let Some(session) = project_sessions_guard.get_mut(&session_id) {
-                        info!("Updating latest_result for session {}: {}", session_id, result_content);
-                        session.latest_result = Some(result_content);
-                    } else {
-                        error!("ProjectSession with ID {} not found for agent {}.", session_id, agent_id);
-                    }
+                        // Update AgentRegistry
+                        if let Err(e) = self.registry.update_status_and_result(
+                            &agent_id,
+                            AgentStatus::Completed,
+                            Some(result_content.clone()), // Clone for project_sessions
+                        ) {
+                            error!("Failed to update status and result for agent {}: {}", agent_id, e);
+                        } else {
+                            info!("Updated status and result for agent {}", agent_id);
+                        }
+
+
+                        // Update ProjectSession
+                        let mut project_sessions_guard = self.project_sessions.write();
+                        if let Some(session) = project_sessions_guard.get_mut(&session_id) {
+                            info!("Updating latest_result for session {}: {}", session_id, result_content);
+                            session.latest_result = Some(result_content);
+                        } else {
+                            error!("ProjectSession with ID {} not found for agent {}.", session_id, agent_id);
+                        }
+                    },
+                    Some("TASK_GRAPH.json") => {
+                        info!("Detected TASK_GRAPH.json created: {:?}", path);
+                        
+                        // Parent dir is the agent dir that created the task graph (e.g. Orchestrator)
+                        let parent_dir = path.parent().context("TASK_GRAPH.json has no parent directory")?;
+                        let session_dir = parent_dir.parent().context("Agent directory has no parent")?;
+                        let session_id = session_dir.file_name()
+                            .context("Session directory has no name")?
+                            .to_str()
+                            .context("Session directory name is not valid UTF-8")?
+                            .to_string();
+
+                        let content = fs::read_to_string(&path)
+                            .await
+                            .context(format!("Failed to read TASK_GRAPH.json from {:?}", path))?;
+
+                        let task_graph: TaskGraph = serde_json::from_str(&content)
+                            .context("Failed to parse TASK_GRAPH.json")?;
+                        
+                        info!("Parsed TaskGraph with {} tasks. Dispatching...", task_graph.tasks.len());
+                        
+                        self.dispatcher.dispatch(session_id, task_graph);
+                    },
+                    _ => {}
                 }
             }
         }

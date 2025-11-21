@@ -49,7 +49,8 @@ const instruction = fs.readFileSync(INSTRUCTION_FILE, 'utf8');
 log(`Read instruction: ${instruction}`);
 
 // 2. Construct Prompt
-const prompt = `You are a helpful worker agent. Your task is to execute the following instruction:\n\n${instruction}\n\nProvide a concise response.`;
+// We use the instruction directly. The caller is responsible for system prompting.
+const prompt = instruction;
 
 // 3. Call Gemini API
 const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
@@ -87,8 +88,34 @@ const req = https.request(url, {
             // 4. Write Result
             fs.writeFileSync(RESULT_FILE, text);
             log(`Success! Result written to ${RESULT_FILE}`);
+
+            // 5. Check for Task Graph (Heuristic)
+            try {
+                // Extract JSON from code block if present
+                let jsonText = text;
+                const jsonBlockRegex = /```json\s*([\s\S]*?)\s*```/;
+                const match = text.match(jsonBlockRegex);
+                if (match) {
+                    jsonText = match[1];
+                }
+
+                // Heuristic: Check for "tasks" array
+                if (jsonText.includes("tasks")) {
+                    const jsonObj = JSON.parse(jsonText);
+                    if (jsonObj && Array.isArray(jsonObj.tasks)) {
+                        log("Detected TaskGraph in output. Writing to TASK_GRAPH.json...");
+                        const taskGraphPath = path.join(WORK_DIR, "TASK_GRAPH.json");
+                        fs.writeFileSync(taskGraphPath, JSON.stringify(jsonObj, null, 2));
+                        log(`Success! TaskGraph written to ${taskGraphPath}`);
+                    }
+                }
+            } catch (e) {
+                // Not JSON or not a task graph, ignore
+                // log(`JSON parse check failed: ${e.message}`);
+            }
+
         } catch (e) {
-            error("Failed to parse JSON: " + e.message);
+            error("Failed to parse JSON response from API: " + e.message);
             process.exit(1);
         }
     });

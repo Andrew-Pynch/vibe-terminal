@@ -1,7 +1,51 @@
+# Interaction Preferences & Work Patterns
+
+## Communication Style
+- **Tone:** Professional, direct, and concise.
+- **Verbosity:** Minimal output (aim for <3 lines of text). No "chitchat" or conversational filler (e.g., "Okay, I will now...").
+- **Explanations:** Only explain *why* complex logic exists; summarize changes after the fact concisely (WHAT, WHY, WHERE).
+- **Clarification:** Ask targeted questions to resolve ambiguity before expanding scope. DO NOT EDIT FILES WILLY NILLY
+
+## Development Workflow
+- **Phased Migration:** Prefer incremental, testable phases over "big bang" refactors. Ensure each phase leaves the system in a working state.
+- **Safety First:**
+    - Do not delete local files/definitions until the new imported versions are fully wired up and verified.
+    - Proactively check for missing dependencies (e.g., `sonner` vs `use-toast`) when moving code.
+- **Planning:**
+    - Use `codebase_investigator` for system-wide analysis or complex refactoring.
+    - Use `write_todos` to track progress on complex, multi-step tasks.
+    - "Measure twice, cut once" approach.
+- **Context Management (PAUSE/RESUME):**
+    - **PAUSE:** Capture all unfinished work, current context, and immediate next steps into the `PAUSE STATE` section of `GEMINI.md`.
+    - **RESUME:** Read the `PAUSE STATE` from `GEMINI.md`, restore context, and continue execution.
+
+## Coding Standards
+- **Conventions:** Rigorously adhere to existing project conventions (naming, structure, patterns). Mimic the "local" style.
+- **Dependencies:** Never assume libraries are available. Verify `package.json` or existing usage before importing.
+- **Comments:** Sparse, focusing on *why* not *what*.
+- **Verification:**
+    - Always run linting (`bun run lint`), type-checking (`bun run typecheck`), and relevant tests after changes.
+    - Consider created tests as permanent artifacts.
+
+## Git & Version Control
+- **Pre-Commit:** Always check `git status`, `git diff HEAD`, and `git log` before proposing a commit.
+- **Commit Messages:** Draft clear, concise messages focusing on the "why".
+- **Safety:** Never push directly to remote without explicit instruction.
+
+---
+
 # Vibe Terminal: Project Status & GEMINI Roadmap
 
 **Date:** November 21, 2025
 **System Context:** `darwin` environment
+
+## PAUSE STATE (Active: 2025-11-21)
+**Current Focus:** Phase 6: Worker Tools & Capability
+**Last Action:** Completed Phase 5. Implemented `TaskDispatcher` and verified end-to-end Orchestrator loop (Orchestrator -> Task Graph -> Worker Spawning).
+**Immediate Next Steps:**
+1.  **Tooling:** Implement a way for agents to use tools (read/write files). `gemini_adapter.js` is currently text-only.
+2.  **Rust Agent Runner:** Consider replacing `gemini_adapter.js` with a Rust binary (`vibe-agent`) that uses the Gemini API directly and handles tool execution locally.
+3.  **Tool Registry:** Define the standard set of tools available to workers.
 
 ## Important Development Directives:
 *   Always present plans for approval before raw implementation.
@@ -35,19 +79,18 @@
 *   ✅ **Env Var Injection:** Server securely passes `GEMINI_API_KEY` to agents via `.env`.
 *   ✅ **Proof of Life:** Validated end-to-end flow with `gemini-2.0-flash` telling jokes.
 
-### Phase 4: The Orchestrator Loop (Next Up)
-*   **Goal:** Close the loop. Server watches for results and auto-spawns agents.
-*   **Tasks:**
-    *   [ ] Implement `ResultWatcher` (File watcher or polling).
-    *   [ ] Feed `RESULT.md` back into `ProjectSession` state.
-    *   [ ] Auto-spawn "Root Orchestrator" on session creation.
+### Phase 4: The Orchestrator Loop (Completed)
+*   ✅ **ResultWatcher:** Server monitors `.vibe/agents` and detects `RESULT.md` creation.
+*   ✅ **State Update:** `RESULT.md` content feeds back into `ProjectSession` (latest_result).
+*   ✅ **Auto-Spawn:** Root Orchestrator automatically spawns on session creation.
 
-### Phase 5: Task Graph & Workers (Planned)
+### Phase 5: Task Graph & Workers (Completed)
 *   **Goal:** The Orchestrator generates a plan, and the server executes it.
 *   **Tasks:**
-    *   [ ] Define Task Graph schema (JSON).
-    *   [ ] Implement "Task Dispatcher" to spawn Worker Agents for each node.
-    *   [ ] Worker Tools: Give agents ability to read/write project files (not just their sandbox).
+    *   ✅ Define Task Graph schema (JSON).
+    *   ✅ Implement "Task Dispatcher" to spawn Worker Agents for each node.
+    *   ✅ Update `gemini_adapter.js` to handle Task Graph generation.
+    *   [ ] Worker Tools: Give agents ability to read/write project files (moved to Phase 6).
 
 ## 4. Future Architecture: Initiatives
 *   **Concept:** A higher-level abstraction above "Sessions".
@@ -60,6 +103,6 @@
 
 ## 5. Current Implementation Status (Backend)
 *   **Language:** Rust.
-*   **State:** Functional skeleton + Agent Spawner.
+*   **State:** Functional skeleton + Agent Spawner + Result Watcher.
 *   **Transport:** HTTP API & WebSocket.
 *   **LLM Layer:** `Gemini Adapter` (Node.js) via external process.
