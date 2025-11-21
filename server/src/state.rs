@@ -1,8 +1,10 @@
 use std::{collections::HashMap, sync::Arc};
 
 use crate::{
-    config::ServerConfig, global_registry::GlobalProjectRegistry, llm::LlmRegistry,
-    profiles::ProfileCatalog, project_sessions::ProjectSession, sessions::SessionStore,
+    agents::registry::AgentRegistry, config::ServerConfig, global_registry::GlobalProjectRegistry,
+    llm::LlmRegistry, profiles::ProfileCatalog, project_sessions::ProjectSession,
+    sessions::SessionStore,
+    agents::spawner::AgentSpawner, // Added this
 };
 use parking_lot::RwLock;
 
@@ -14,4 +16,6 @@ pub struct AppState {
     pub llms: Arc<LlmRegistry>,
     pub global_registry: Arc<RwLock<GlobalProjectRegistry>>,
     pub project_sessions: Arc<RwLock<HashMap<String, ProjectSession>>>,
+    pub agents: AgentRegistry,
+    pub agent_spawner: AgentSpawner, // Added this
 }

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "project_root": "/home/andrew/personal/vibe-terminal",
+  "project_name": "vibe-terminal",
+  "created_at": "2025-11-21T01:16:57Z",
+  "preferred_planner_model": "gpt-5.1",
+  "preferred_worker_model": "claude-code",
+  "notes": "Initial .vibe scaffold created by 'vibe init'."
+}

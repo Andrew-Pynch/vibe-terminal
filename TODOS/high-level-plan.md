@@ -15,17 +15,18 @@ This document outlines the high-level architecture for integrating external AI a
 
 *   **Process Manager:** Responsible for spawning, monitoring, and terminating external agent processes.
 *   **Agent Registry:** Maintains state and metadata for all active agents (PID, assigned session, current status).
+*   **Env Var Injection:** Securely passes secrets (e.g., `GEMINI_API_KEY`) to agents via process environment.
 *   **File Watcher:** Monitors agent-specific directories for changes in output files (e.g., logs, results).
-*   **Orchestration Logic:** Implements the core Vibe Terminal session flow:
-    *   **Planning:** Spawns Orchestrator Agents to create/refine task graphs (`todos/`).
-    *   **Dispatching:** Assigns tasks to Worker Agents.
-    *   **Monitoring:** Observes agent progress and handles failures.
-    *   **State Management:** Updates the in-memory `ProjectSession` state based on agent outputs.
-*   **MCP Server (Future):** Hosts MCP endpoints for agents to consume tools (e.g., `save_state`, `ask_user`, `file_system_operations`).
+*   **Orchestration Logic:** Implements the core Vibe Terminal session flow.
 
 ### 2.2. External AI Agents (The Workers)
 
-These are separate processes (e.g., `gemini-cli` instances) spawned by the Rust server.
+These are separate processes spawned by the Rust server.
+
+*   **Gemini Adapter (Node.js):**
+    *   A lightweight wrapper script that bridges the file-based protocol (`INSTRUCTION.md` -> `RESULT.md`) with the Google Generative AI SDK.
+    *   Uses `gemini-2.0-flash` (or configured model) for intelligence.
+    *   Allows us to leverage official SDKs without embedding them in the Rust server.
 
 *   **Orchestrator Agent:**
     *   **Input:** Project context (PRDs, docs), current task graph state.

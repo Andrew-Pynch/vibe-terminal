@@ -1,0 +1,12 @@
+[2025-11-21T02:08:19.780Z] Starting Gemini Adapter...
+[2025-11-21T02:08:19.781Z] CWD: /home/andrew/personal/vibe-terminal/.vibe/agents/gemini-test-session/4e7b835a-999a-4c90-af9c-218e33e8cf16
+[2025-11-21T02:08:19.781Z] Read instruction: Tell me a short joke about Rust programmers.
+[2025-11-21T02:08:19.781Z] Calling Gemini API...
+[2025-11-21T02:08:19.928Z] ERROR: API Error 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+    "status": "NOT_FOUND"
+  }
+}
+

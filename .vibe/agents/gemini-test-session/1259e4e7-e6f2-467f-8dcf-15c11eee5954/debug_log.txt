@@ -1,0 +1,12 @@
+[2025-11-21T02:04:56.877Z] Starting Gemini Adapter...
+[2025-11-21T02:04:56.878Z] CWD: /home/andrew/personal/vibe-terminal/.vibe/agents/gemini-test-session/1259e4e7-e6f2-467f-8dcf-15c11eee5954
+[2025-11-21T02:04:56.879Z] Read instruction: Tell me a short joke about Rust programmers.
+[2025-11-21T02:04:56.879Z] Calling Gemini API...
+[2025-11-21T02:04:57.048Z] ERROR: API Error 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+    "status": "NOT_FOUND"
+  }
+}
+

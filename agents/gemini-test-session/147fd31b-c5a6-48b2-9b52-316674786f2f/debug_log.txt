@@ -1,0 +1,3 @@
+[2025-11-21T01:20:35.833Z] Starting Gemini Adapter...
+[2025-11-21T01:20:35.834Z] CWD: /home/andrew/personal/vibe-terminal/agents/gemini-test-session/147fd31b-c5a6-48b2-9b52-316674786f2f
+[2025-11-21T01:20:35.834Z] ERROR: GEMINI_API_KEY environment variable not set.

@@ -1,29 +1,26 @@
-mod api;
-mod config;
-mod global_registry;
-mod llm;
-mod profiles;
-mod project_sessions;
-mod sessions;
-mod state;
-mod ws;
-
 use std::{collections::HashMap, net::SocketAddr, sync::Arc};
 
+use agent_hub_server::{
+    agents::registry::AgentRegistry,
+    api,
+    config::ServerConfig,
+    global_registry::{load_or_init_registry, GlobalProjectRegistry, RegistryError},
+    llm::LlmRegistry,
+    profiles::ProfileCatalog,
+    project_sessions::ProjectSession,
+    sessions::SessionStore,
+    state::AppState,
+    ws,
+    agents::spawner::AgentSpawner, // Added this
+};
 use axum::Router;
-use config::ServerConfig;
-use global_registry::{load_or_init_registry, GlobalProjectRegistry, RegistryError};
-use llm::LlmRegistry;
 use parking_lot::RwLock;
-use profiles::ProfileCatalog;
-use project_sessions::ProjectSession;
-use sessions::SessionStore;
-use state::AppState;
 use tracing::error;
 use tracing_subscriber::{fmt, EnvFilter};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    dotenv::dotenv().ok(); // Load .env file if it exists
     fmt().with_env_filter(EnvFilter::from_default_env()).init();
 
     let config = ServerConfig::from_env()?;
@@ -43,6 +40,9 @@ async fn main() -> anyhow::Result<()> {
     };
     let global_registry = Arc::new(RwLock::new(registry));
     let project_sessions = Arc::new(RwLock::new(HashMap::<String, ProjectSession>::new()));
+    let agents = AgentRegistry::new();
+    let agent_spawner = AgentSpawner::new(agents.clone(), config.project_root.clone().into()); // Added this
+
     let state = AppState {
         config: config.clone(),
         sessions,
@@ -50,7 +50,23 @@ async fn main() -> anyhow::Result<()> {
         llms,
         global_registry,
         project_sessions,
+        agents: agents.clone(), // Clone agents for the watcher
+        agent_spawner, // Added this
     };
+
+    // Initialize and spawn ResultWatcher
+    let watcher_base_dir = state.config.project_root.clone(); // Assuming project_root is the base dir
+    let result_watcher = crate::agents::watcher::ResultWatcher::new(
+        state.agents.clone(),
+        state.project_sessions.clone(), // Pass project_sessions here
+        watcher_base_dir.into(),
+    );
+
+    tokio::spawn(async move {
+        if let Err(e) = result_watcher.start().await {
+            error!("ResultWatcher failed: {:?}", e);
+        }
+    });
 
     let http_app = api::router(state.clone());
     let ws_app = ws::router(state.clone());

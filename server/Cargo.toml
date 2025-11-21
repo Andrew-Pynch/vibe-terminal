@@ -7,7 +7,7 @@ edition = "2021"
 anyhow = "1.0"
 axum = { version = "0.7", features = ["macros", "ws", "json"] }
 chrono = { version = "0.4", features = ["serde"] }
-futures = "0.3"
+futures = { version = "0.3", features = ["executor"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "1.0"
@@ -16,12 +16,14 @@ tokio-stream = "0.1"
 tower-http = { version = "0.5", features = ["cors", "trace"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
-uuid = { version = "1.8", features = ["v4", "serde"] }
+uuid = { version = "1.8", features = ["v4", "serde", "fast-rng"] }
 parking_lot = "0.12"
 async-stream = "0.3"
 hyper = { version = "1.2", features = ["http1", "http2"] }
 clap = { version = "4.5" }
 dirs = "5.0"
+dotenv = "0.15.0"
+notify = "8.2.0"
 
 [dev-dependencies]
 tempfile = "3.10"

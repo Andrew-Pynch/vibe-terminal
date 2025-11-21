@@ -1,3 +1,4 @@
+pub mod api;
 pub mod config;
 pub mod global_registry;
 pub mod llm;
@@ -7,3 +8,5 @@ pub mod sessions;
 pub mod state;
 pub mod utils;
 pub mod vibe_project;
+pub mod agents;
+pub mod ws;
