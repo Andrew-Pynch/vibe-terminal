@@ -40,16 +40,18 @@
 **System Context:** `darwin` environment
 
 ## PAUSE STATE (Active: 2025-11-21)
-**Current Focus:** Phase 6: Worker Tools & Capability
-**Last Action:** Completed Phase 5. Implemented `TaskDispatcher` and verified end-to-end Orchestrator loop (Orchestrator -> Task Graph -> Worker Spawning).
+**Current Focus:** Phase 6: The Vibe Pivot (Native Gemini Workers)
+**Last Action:** Completed Phase 5. Implemented `TaskDispatcher` (Orchestrator -> Task Graph).
 **Immediate Next Steps:**
-1.  **Tooling:** Implement a way for agents to use tools (read/write files). `gemini_adapter.js` is currently text-only.
-2.  **Rust Agent Runner:** Consider replacing `gemini_adapter.js` with a Rust binary (`vibe-agent`) that uses the Gemini API directly and handles tool execution locally.
-3.  **Tool Registry:** Define the standard set of tools available to workers.
+1.  **Infrastructure:** Create `vibe-report` and `vibe-complete` CLI shims (wrappers around `curl` to Server).
+2.  **Refactor:** Update `TaskDispatcher` to spawn `gemini -p` processes directly, injecting dynamic system prompts.
+3.  **API:** Update Rust Server to handle status reports from the CLI shims.
+4.  **UX:** Build the Web Dashboard (only after the backend pivot is working).
 
 ## Important Development Directives:
-*   Always present plans for approval before raw implementation.
-*   Break down tasks into manageable, testable chunks.
+*   **The "Rambo" Pattern:** Workers are native `gemini` CLI processes running in full-auto mode.
+*   **Signaling:** Workers use `run_shell_command` to call `vibe-report` (progress) or `vibe-complete` (finish).
+*   **State:** Server keeps state in-memory; File System is the source of truth.
 
 ## 1. High-Level Concept
 **vibe-terminal** is a "project mind" server designed to orchestrate software development. It sits between human intent (goals, vibes) and worker agents (AI models modifying code).
@@ -58,10 +60,11 @@
 *   **Mechanism:** Structured "Project Sessions" tracking PRDs, task graphs, and file boundaries.
 *   **Modes:** BOOT (read-only), ORCHESTRATOR (planning), WORKER (execution), DOC_SCRIBE (documentation).
 
-## 2. Strategic Pivot: Gemini First
-**Decision:** All AI components (Orchestrator and Workers) will default to **Gemini** models.
-*   **Orchestrator:** Gemini Flash/Pro for high-speed context understanding and planning.
-*   **Workers:** Gemini models for code generation and task execution.
+## 2. Strategic Pivot: Native Gemini Workers
+**Decision:** We are abandoning the custom Node.js agent wrapper.
+*   **Orchestrator:** A specialized Gemini session that outputs `TASK_GRAPH.json`.
+*   **Workers:** Native `gemini -p <prompt_file> --auto` processes.
+*   **Tools:** Agents use their built-in `run_shell_command` to interact with the system and signal the server via `vibe-*` shim scripts.
 
 ## 3. Implementation Roadmap & Status
 
@@ -72,25 +75,33 @@
 ### Phase 2: The Spawner (Completed)
 *   ✅ **AgentSpawner:** Logic to create `.vibe/agents/<session>/<id>/` directories.
 *   ✅ **File Bus:** Establishes `INSTRUCTION.md` -> `RESULT.md` protocol.
-*   ✅ **Debug API:** `POST /debug/spawn` to manually trigger agents.
 
 ### Phase 3: Gemini Integration (Completed)
-*   ✅ **Node.js Adapter:** `gemini_adapter.js` bridges the gap between file protocol and Google AI SDK.
-*   ✅ **Env Var Injection:** Server securely passes `GEMINI_API_KEY` to agents via `.env`.
-*   ✅ **Proof of Life:** Validated end-to-end flow with `gemini-2.0-flash` telling jokes.
+*   ✅ **Node.js Adapter:** `gemini_adapter.js` (Legacy, to be replaced).
+*   ✅ **Env Var Injection:** Server securely passes `GEMINI_API_KEY`.
 
 ### Phase 4: The Orchestrator Loop (Completed)
 *   ✅ **ResultWatcher:** Server monitors `.vibe/agents` and detects `RESULT.md` creation.
-*   ✅ **State Update:** `RESULT.md` content feeds back into `ProjectSession` (latest_result).
 *   ✅ **Auto-Spawn:** Root Orchestrator automatically spawns on session creation.
 
 ### Phase 5: Task Graph & Workers (Completed)
-*   **Goal:** The Orchestrator generates a plan, and the server executes it.
+*   ✅ **Task Graph:** Defined JSON schema for orchestrator output.
+*   ✅ **Task Dispatcher:** Server spawns workers based on the graph.
+
+### Phase 6: The Vibe Pivot (In Progress)
+*   **Goal:** Switch to native `gemini` CLI workers with MCP-style signaling.
 *   **Tasks:**
-    *   ✅ Define Task Graph schema (JSON).
-    *   ✅ Implement "Task Dispatcher" to spawn Worker Agents for each node.
-    *   ✅ Update `gemini_adapter.js` to handle Task Graph generation.
-    *   [ ] Worker Tools: Give agents ability to read/write project files (moved to Phase 6).
+    *   [ ] Create `vibe-report` and `vibe-complete` shim scripts.
+    *   [ ] Update Rust Server API to receive shim signals.
+    *   [ ] Refactor `TaskDispatcher` to spawn `gemini` CLI with dynamic prompts.
+    *   [ ] Verify end-to-end "Rambo" mode.
+
+### Phase 7: The Dashboard (Planned)
+*   **Goal:** Visual interface for the hive mind.
+*   **Tasks:**
+    *   [ ] Web UI (React/HTML) served by Rust.
+    *   [ ] Real-time "Matrix" logs of worker stdout.
+    *   [ ] Visual Task Graph.
 
 ## 4. Future Architecture: Initiatives
 *   **Concept:** A higher-level abstraction above "Sessions".
