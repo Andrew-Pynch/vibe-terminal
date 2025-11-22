@@ -21,6 +21,8 @@ pub struct Agent {
     pub status: AgentStatus,
     pub pid: Option<u32>,
     pub result: Option<String>,
+    pub progress: Option<u8>,
+    pub last_thought: Option<String>,
 }
 
 impl Agent {
@@ -32,6 +34,8 @@ impl Agent {
             status: AgentStatus::Starting,
             pid: None,
             result: None,
+            progress: Some(0),
+            last_thought: None,
         }
     }
 }
@@ -110,6 +114,25 @@ impl AgentRegistry {
         if let Some(agent) = agents.get_mut(agent_id) {
             agent.status = status;
             agent.result = result;
+            Ok(())
+        } else {
+            Err(format!("Agent with ID {} not found", agent_id))
+        }
+    }
+
+    /// Updates the status, progress, and last thought of an existing agent.
+    pub fn update_status_and_progress(
+        &self,
+        agent_id: &str,
+        status: AgentStatus,
+        progress: u8,
+        thought: Option<String>,
+    ) -> Result<(), String> {
+        let mut agents = self.agents.lock().unwrap();
+        if let Some(agent) = agents.get_mut(agent_id) {
+            agent.status = status;
+            agent.progress = Some(progress);
+            agent.last_thought = thought;
             Ok(())
         } else {
             Err(format!("Agent with ID {} not found", agent_id))

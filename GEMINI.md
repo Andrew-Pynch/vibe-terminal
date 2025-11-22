@@ -39,14 +39,24 @@
 **Date:** November 21, 2025
 **System Context:** `darwin` environment
 
-## PAUSE STATE (Active: 2025-11-21)
-**Current Focus:** Phase 6: The Vibe Pivot (Native Gemini Workers)
-**Last Action:** Completed Phase 5. Implemented `TaskDispatcher` (Orchestrator -> Task Graph).
+## PAUSE STATE (Active: 2025-11-22)
+**Current Focus:** Phase 6.1: Stabilizing "Rambo Mode" & Multi-Provider Support
+**Last Action:** Implemented native `gemini` CLI worker spawning with `TaskDispatcher`. Added a 5-second delay between spawns to mitigate API rate limits.
+**Context:** 
+- The "Rambo Mode" architecture (Server -> Task Graph -> Native CLI Process -> Shim -> Server) is **PROVEN TO WORK**.
+- Orchestrator successfully creates `TASK_GRAPH.json`.
+- Dispatcher successfully spawns workers.
+- Workers successfully log to `server.log` (Matrix view).
+- **Blocker:** We hit Gemini API rate limits (`You have exhausted your capacity`). The 5s delay was added but not fully verified.
 **Immediate Next Steps:**
-1.  **Infrastructure:** Create `vibe-report` and `vibe-complete` CLI shims (wrappers around `curl` to Server).
-2.  **Refactor:** Update `TaskDispatcher` to spawn `gemini -p` processes directly, injecting dynamic system prompts.
-3.  **API:** Update Rust Server to handle status reports from the CLI shims.
-4.  **UX:** Build the Web Dashboard (only after the backend pivot is working).
+1.  **Verify Rate Limit Fix:** Start the server and trigger a session to confirm if the 5s delay allows all 4 agents to run without crashing.
+2.  **Multi-Provider Investigation:** Investigate `claude --help` and other CLI tools to design a generic `ProviderAdapter` trait for the Rust server (abstracting away the specific CLI flags like `-p` vs `--prompt`).
+3.  **Dashboard (Phase 7):** Once the backend is stable, build the Web UI to visualize these worker logs.
+
+## Important Development Directives:
+*   **The "Rambo" Pattern:** Workers are native CLI processes running in full-auto mode.
+*   **Signaling:** Workers use `run_shell_command` to call `vibe-report` (progress) or `vibe-complete` (finish).
+*   **State:** Server keeps state in-memory; File System is the source of truth.
 
 ## Important Development Directives:
 *   **The "Rambo" Pattern:** Workers are native `gemini` CLI processes running in full-auto mode.

@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "id": "setup-1",
+      "description": "Set up the project repository and development environment.",
+      "agent_type": "engineer"
+    },
+    {
+      "id": "ui-1",
+      "description": "Design the basic user interface (UI) for the to-do list.",
+      "agent_type": "designer"
+    },
+    {
+      "id": "data-1",
+      "description": "Define the data model for a to-do item (title, description, completed status).",
+      "agent_type": "engineer"
+    },
+    {
+      "id": "db-1",
+      "description": "Choose a database (or in-memory storage for simplicity) to store to-do items.",
+      "agent_type": "engineer"
+    }
+  ]
+}

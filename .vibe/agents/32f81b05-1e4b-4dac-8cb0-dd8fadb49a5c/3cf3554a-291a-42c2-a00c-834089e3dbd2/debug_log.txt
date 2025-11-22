@@ -1,0 +1,20 @@
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: Loaded cached credentials.
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: Error when talking to Gemini API Full report available at: /tmp/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T03-03-48-425Z.json
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: [API Error: [{
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:   "error": {
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:     "code": 404,
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:     "message": "Requested entity was not found.",
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:     "errors": [
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:       {
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:         "message": "Requested entity was not found.",
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:         "domain": "global",
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:         "reason": "notFound"
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:       }
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:     ],
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:     "status": "NOT_FOUND"
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR:   }
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: }
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: ]]
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: An unexpected critical error occurred:
+[3cf3554a-291a-42c2-a00c-834089e3dbd2] STDERR: [object Object]

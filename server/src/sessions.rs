@@ -225,14 +225,21 @@ pub enum WsEvent {
         session_id: String,
         message_id: String,
     },
-    SessionUpdated {
-        session: SessionSummary,
-    },
-    Error {
-        code: String,
-        message: String,
-    },
-}
+        SessionUpdated {                                                            
+            session: SessionSummary,                                                
+        },
+        AgentStatusUpdate {
+            session_id: String,
+            agent_id: String,
+            status: String,
+            progress: u8,
+            thought: Option<String>,
+            result: Option<String>,
+        },
+        Error {                                                                     
+            code: String,                                                           
+            message: String,                                                        
+        },}
 
 impl Session {
     fn summary(&self) -> SessionSummary {

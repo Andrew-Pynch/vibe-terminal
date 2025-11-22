@@ -64,29 +64,36 @@ impl ResultWatcher {
     }
 
     async fn handle_event(&self, event: Event) -> Result<()> {
-        if let EventKind::Create(notify::event::CreateKind::File) = event.kind {
+        // Handle Modify as well, because sometimes files are created empty then modified
+        if let EventKind::Create(_) | EventKind::Modify(_) = event.kind {
             for path in event.paths {
                 let file_name = path.file_name().and_then(|n| n.to_str());
 
                 match file_name {
                     Some("RESULT.md") => {
-                        info!("Detected RESULT.md created: {:?}", path);
+                        // We only want to process this if it's not empty to avoid spamming updates
+                        // or reading empty files.
+                        if let Ok(metadata) = fs::metadata(&path).await {
+                            if metadata.len() == 0 {
+                                continue;
+                            }
+                        }
+
+                        info!("Detected RESULT.md update: {:?}", path);
 
                         let parent_dir = path.parent().context("RESULT.md has no parent directory")?;
                         let agent_id = parent_dir.file_name()
                             .context("Agent directory has no name")?
                             .to_str()
-                            .context("Agent directory name is not valid UTF-8")?
-                            .to_string();
+                            .context("Agent directory name is not valid UTF-8")?;
 
                         let session_dir = parent_dir.parent().context("Agent directory has no parent")?;
                         let session_id = session_dir.file_name()
                             .context("Session directory has no name")?
                             .to_str()
-                            .context("Session directory name is not valid UTF-8")?
-                            .to_string();
+                            .context("Session directory name is not valid UTF-8")?;
 
-                        info!("Extracted session_id: {}, agent_id: {}", session_id, agent_id);
+                        // info!("Extracted session_id: {}, agent_id: {}", session_id, agent_id);
 
                         let result_content = fs::read_to_string(&path)
                             .await
@@ -100,41 +107,109 @@ impl ResultWatcher {
                         ) {
                             error!("Failed to update status and result for agent {}: {}", agent_id, e);
                         } else {
-                            info!("Updated status and result for agent {}", agent_id);
+                            // info!("Updated status and result for agent {}", agent_id);
                         }
 
+                                                                                                // Update ProjectSession
 
-                        // Update ProjectSession
-                        let mut project_sessions_guard = self.project_sessions.write();
-                        if let Some(session) = project_sessions_guard.get_mut(&session_id) {
-                            info!("Updating latest_result for session {}: {}", session_id, result_content);
-                            session.latest_result = Some(result_content);
-                        } else {
-                            error!("ProjectSession with ID {} not found for agent {}.", session_id, agent_id);
-                        }
-                    },
+                                                                                                let mut project_sessions_guard = self.project_sessions.write();
+
+                                                                                                if let Some(session) = project_sessions_guard.get_mut(session_id) {
+
+                                                                                                    // info!("Updating latest_result for session {}: {}", session_id, result_content);
+
+                                                                                                    session.latest_result = Some(result_content.clone());
+
+                                                                                                }
+
+                                                                                                
+
+                                                                                                // Try to parse task graph from RESULT.md if it contains one
+
+                                                                                                // This is a fallback/heuristic if the agent writes it to RESULT.md instead of TASK_GRAPH.json
+
+                                                                                                 if result_content.contains("\"tasks\"") {
+
+                                                                                                    // Try extracting JSON block
+
+                                                                                                     let json_str = if let Some(start) = result_content.find("```json") {
+
+                                                                                                         if let Some(end) = result_content[start..].find("```") {
+
+                                                                                                             // Be careful with indices here, finding the SECOND ```
+
+                                                                                                             let block = &result_content[start..];
+
+                                                                                                              if let Some(end_block) = block[7..].find("```") {
+
+                                                                                                                  &block[7..7+end_block]
+
+                                                                                                              } else {
+
+                                                                                                                  ""
+
+                                                                                                              }
+
+                                                                                                         } else { "" }
+
+                                                                                                     } else {
+
+                                                                                                         &result_content
+
+                                                                                                     };
+
+                                                                        
+
+                                                                                                     if let Ok(task_graph) = serde_json::from_str::<TaskGraph>(json_str.trim()) {
+
+                                                                                                         info!("Detected embedded TaskGraph in RESULT.md. Dispatching...");
+
+                                                                                                         let dispatcher_clone = self.dispatcher.clone();
+
+                                                                                                         let session_id_string = session_id.to_string();
+
+                                                                                                         tokio::spawn(async move {
+
+                                                                                                             dispatcher_clone.dispatch(session_id_string, task_graph).await;
+
+                                                                                                         });
+
+                                                                                                     }
+
+                                                                                                 }
+
+                                                                                            },
                     Some("TASK_GRAPH.json") => {
-                        info!("Detected TASK_GRAPH.json created: {:?}", path);
+                        info!("Detected TASK_GRAPH.json update: {:?}", path);
                         
-                        // Parent dir is the agent dir that created the task graph (e.g. Orchestrator)
+                        if let Ok(metadata) = fs::metadata(&path).await {
+                            if metadata.len() == 0 {
+                                continue;
+                            }
+                        }
+
                         let parent_dir = path.parent().context("TASK_GRAPH.json has no parent directory")?;
                         let session_dir = parent_dir.parent().context("Agent directory has no parent")?;
                         let session_id = session_dir.file_name()
                             .context("Session directory has no name")?
                             .to_str()
-                            .context("Session directory name is not valid UTF-8")?
-                            .to_string();
+                            .context("Session directory name is not valid UTF-8")?;
 
                         let content = fs::read_to_string(&path)
                             .await
-                            .context(format!("Failed to read TASK_GRAPH.json from {:?}", path))?;
+                            .context("Failed to read TASK_GRAPH.json")?;
 
-                        let task_graph: TaskGraph = serde_json::from_str(&content)
-                            .context("Failed to parse TASK_GRAPH.json")?;
-                        
-                        info!("Parsed TaskGraph with {} tasks. Dispatching...", task_graph.tasks.len());
-                        
-                        self.dispatcher.dispatch(session_id, task_graph);
+                        match serde_json::from_str::<TaskGraph>(&content) {
+                            Ok(task_graph) => {
+                                info!("Parsed TaskGraph with {} tasks. Dispatching...", task_graph.tasks.len());
+                                let dispatcher_clone = self.dispatcher.clone();
+                                let session_id_string = session_id.to_string();
+                                tokio::spawn(async move {
+                                    dispatcher_clone.dispatch(session_id_string, task_graph).await;
+                                });
+                            },
+                            Err(e) => error!("Failed to parse TASK_GRAPH.json: {}", e),
+                        }
                     },
                     _ => {}
                 }

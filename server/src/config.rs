@@ -20,7 +20,7 @@ impl ServerConfig {
         let http_port = read_env("AGENT_HUB_HTTP_PORT").unwrap_or_else(|| "4110".into());
         let ws_port = read_env("AGENT_HUB_WS_PORT").unwrap_or_else(|| "4111".into());
         let protocol = read_env("AGENT_HUB_PROVIDER").unwrap_or_else(|| "dummy".into());
-        let model = read_env("AGENT_HUB_MODEL").unwrap_or_else(|| "dummy-orchestrator".into());
+        let model = read_env("AGENT_HUB_MODEL").unwrap_or_else(|| "gemini-2.0-flash".into()); // Changed from dummy-orchestrator
         let temperature = read_env("AGENT_HUB_TEMPERATURE")
             .and_then(|value| value.parse::<f32>().ok())
             .unwrap_or(0.2);

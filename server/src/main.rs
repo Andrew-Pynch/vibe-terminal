@@ -50,7 +50,11 @@ async fn main() -> anyhow::Result<()> {
     let agents = AgentRegistry::new();
     let agent_spawner = AgentSpawner::new(agents.clone(), server_root_dir.clone());
     
-    let task_dispatcher = TaskDispatcher::new(agent_spawner.clone(), Arc::new(config.clone()));
+    let task_dispatcher = TaskDispatcher::new(
+        agent_spawner.clone(), 
+        Arc::new(config.clone()), 
+        server_root_dir.clone(), // New argument
+    );
 
     let state = AppState {
         config: config.clone(),

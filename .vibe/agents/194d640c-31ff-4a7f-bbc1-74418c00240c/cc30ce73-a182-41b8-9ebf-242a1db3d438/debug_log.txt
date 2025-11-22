@@ -1,0 +1,22 @@
+[2025-11-21T17:22:06.350Z] Starting Gemini Adapter...
+[2025-11-21T17:22:06.351Z] CWD: /home/andrew/personal/vibe-terminal/.vibe/agents/194d640c-31ff-4a7f-bbc1-74418c00240c/cc30ce73-a182-41b8-9ebf-242a1db3d438
+[2025-11-21T17:22:06.351Z] Read instruction: As the Root Orchestrator, your goal is to plan the development of this project.
+
+Analyze the project state.
+
+Output a JSON object with a 'tasks' array describing the next steps.
+Each task should have an 'id' (string), 'description' (string), and optional 'agent_type' (string).
+
+Example:
+```json
+{
+  "tasks": [
+    { "id": "init-1", "description": "Create README.md", "agent_type": "worker" }
+  ]
+}
+```
+
+[2025-11-21T17:22:06.351Z] Calling Gemini API...
+[2025-11-21T17:22:10.540Z] Success! Result written to /home/andrew/personal/vibe-terminal/.vibe/agents/194d640c-31ff-4a7f-bbc1-74418c00240c/cc30ce73-a182-41b8-9ebf-242a1db3d438/RESULT.md
+[2025-11-21T17:22:10.540Z] Detected TaskGraph in output. Writing to TASK_GRAPH.json...
+[2025-11-21T17:22:10.540Z] Success! TaskGraph written to /home/andrew/personal/vibe-terminal/.vibe/agents/194d640c-31ff-4a7f-bbc1-74418c00240c/cc30ce73-a182-41b8-9ebf-242a1db3d438/TASK_GRAPH.json

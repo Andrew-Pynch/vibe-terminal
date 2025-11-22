@@ -1,0 +1,8 @@
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: Loaded cached credentials.
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5574.1406099999995ms...
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5782.751791ms...
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: Error when talking to Gemini API Full report available at: /tmp/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T06-06-46-253Z.json
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: [API Error: You have exhausted your capacity on this model. Your quota will reset after 5s.]
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: An unexpected critical error occurred:
+[e5f2acf8-8550-4585-ba9e-ea2a7deae5b7] STDERR: [object Object]

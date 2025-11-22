@@ -1,0 +1,21 @@
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Loaded cached credentials.
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 1195.982362ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5880.525039ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 3 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5821.6349279999995ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 4 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5828.515149ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Error generating JSON content via API. Full report available at: /tmp/gemini-client-error-generateJson-api-2025-11-22T02-09-47-207Z.json
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: [Routing] ClassifierStrategy failed: Error: Failed to generate JSON content: You have exhausted your capacity on this model. Your quota will reset after 5s.
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at BaseLlmClient.generateJson (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/baseLlmClient.js:71:19)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async ClassifierStrategy.route (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/routing/strategies/classifierStrategy.js:126:34)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async CompositeStrategy.route (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/routing/strategies/compositeStrategy.js:30:34)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async ModelRouterService.route (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/routing/modelRouterService.js:44:24)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async GeminiClient.sendMessageStream (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/client.js:373:30)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli/dist/src/nonInteractiveCli.js:188:34
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR:     at async main (file:///home/andrew/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:361:9)
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 1662.768083ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5830.783651ms...
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: Error when talking to Gemini API Full report available at: /tmp/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T02-09-55-252Z.json
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: [API Error: You have exhausted your capacity on this model. Your quota will reset after 5s.]
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: An unexpected critical error occurred:
+[54b3cee6-d83d-44dc-958a-4c80fb011a19] STDERR: [object Object]

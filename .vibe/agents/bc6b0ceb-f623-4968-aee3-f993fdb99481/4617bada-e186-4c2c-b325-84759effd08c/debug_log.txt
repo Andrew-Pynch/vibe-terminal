@@ -1,0 +1,29 @@
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Unknown argument: auto
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Usage: gemini [options] [command]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: 
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Gemini CLI - Launch an interactive CLI, use -p/--prompt for non-interactive mode
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: 
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Commands:
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   gemini [query..]             Launch Gemini CLI  [default]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   gemini mcp                   Manage MCP servers
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   gemini extensions <command>  Manage Gemini CLI extensions.  [aliases: extension]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: 
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Positionals:
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   query  Positional prompt. Defaults to one-shot; use -i/--prompt-interactive for interactive.
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: 
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR: Options:
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -d, --debug                     Run in debug mode?  [boolean] [default: false]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -m, --model                     Model  [string]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -p, --prompt                    Prompt. Appended to input on stdin (if any).  [deprecated: Use the positional prompt instead. This flag will be removed in a future version.] [string]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -i, --prompt-interactive        Execute the provided prompt and continue in interactive mode  [string]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -s, --sandbox                   Run in sandbox?  [boolean]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -y, --yolo                      Automatically accept all actions (aka YOLO mode, see https://www.youtube.com/watch?v=xvFZjo5PgG0 for more details)?  [boolean] [default: false]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --approval-mode             Set the approval mode: default (prompt for approval), auto_edit (auto-approve edit tools), yolo (auto-approve all tools)  [string] [choices: "default", "auto_edit", "yolo"]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --experimental-acp          Starts the agent in ACP mode  [boolean]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --allowed-mcp-server-names  Allowed MCP server names  [array]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --allowed-tools             Tools that are allowed to run without confirmation  [array]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -e, --extensions                A list of extensions to use. If not provided, all extensions are used.  [array]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -l, --list-extensions           List all available extensions and exit.  [boolean]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:   -r, --resume                    Resume a previous session. Use "latest" for most recent or index number (e.g. --resume 5)  [string]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --list-sessions             List available sessions for the current project and exit.  [boolean]
+[4617bada-e186-4c2c-b325-84759effd08c] STDERR:       --delete-session            Delete a session by index number (use --list-sessions to see available sessions).  [string]

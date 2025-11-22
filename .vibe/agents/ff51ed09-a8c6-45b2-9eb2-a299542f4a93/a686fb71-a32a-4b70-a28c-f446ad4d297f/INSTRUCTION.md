@@ -1,0 +1,1 @@
+As the Root Orchestrator, your first task is to initialize the project and decide on the next steps.

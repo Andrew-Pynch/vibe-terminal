@@ -18,10 +18,13 @@ use crate::{
     project_sessions::{
         create_or_get_session_for_project, list_sessions as list_project_sessions, ProjectSession,
     },
-    sessions::{SessionCreateParams, SessionDetail, SessionSummary},
+    sessions::{SessionCreateParams, SessionDetail, SessionSummary, WsEvent},
     state::AppState,
+    agents::registry::{AgentStatus, AgentRegistry}, // Added AgentRegistry for AgentStatus and registry methods
 };
 use std::{collections::HashMap, env, str::FromStr};
+use tracing::{info, error}; // Added for logging in handlers
+
 
 pub fn router(state: AppState) -> Router {
     Router::new()
@@ -35,6 +38,9 @@ pub fn router(state: AppState) -> Router {
         .route("/sessions/:id", get(get_session).delete(delete_session))
         .route("/profiles", get(list_profiles))
         .route("/debug/spawn", post(debug_spawn_agent))
+        // --- New routes for agent communication ---
+        .route("/agent/report", post(handle_agent_report))
+        .route("/agent/complete", post(handle_agent_complete))
         .with_state(state.clone())
         .layer(from_fn_with_state(state, guard_shared_secret))
 }
@@ -49,7 +55,7 @@ async fn debug_spawn_agent(
 ) -> Result<Json<DebugSpawnResponse>, StatusCode> {
     let base_dir = env::current_dir().map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
     let spawner = AgentSpawner::new(state.agents.clone(), base_dir.clone());
-    
+
     // Default to the dummy agent script if no command is provided
     let command = payload.command.unwrap_or_else(|| "bash".to_string());
     let args = payload.args.unwrap_or_else(|| {
@@ -62,7 +68,7 @@ async fn debug_spawn_agent(
         } else {
             base_dir.join("tests/scripts/dummy_agent.sh") // If running inside server/
         };
-        
+
         vec![
             "-c".to_string(),
             final_path.to_string_lossy().to_string()
@@ -77,19 +83,78 @@ async fn debug_spawn_agent(
 
     let agent_id = spawner
         .spawn_agent(
-            payload.session_id, 
-            payload.agent_type, 
+            payload.session_id,
+            payload.agent_type,
             payload.instruction,
             command,
             args,
             env_vars
-        )
+        ).await // Await here
         .map_err(|e| {
             tracing::error!("Failed to spawn agent: {}", e);
             StatusCode::INTERNAL_SERVER_ERROR
         })?;
 
     Ok(Json(DebugSpawnResponse { agent_id }))
+}
+
+async fn handle_agent_report(
+    State(state): State<AppState>,
+    Json(payload): Json<AgentReportPayload>,
+) -> StatusCode {
+    info!("Agent Report: {:?}", payload);
+
+    if let Err(e) = state.agents.update_status_and_progress(
+        &payload.agent_id,
+        AgentStatus::Running, // Agents are always "Running" when they report.
+        payload.progress,
+        payload.thought.clone(),
+    ) {
+        error!("Failed to update agent status for report: {}", e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    } else {
+        state.sessions.publish(
+            &payload.session_id,
+            WsEvent::AgentStatusUpdate {
+                session_id: payload.session_id.clone(),
+                agent_id: payload.agent_id.clone(),
+                status: "running".to_string(),
+                progress: payload.progress,
+                thought: payload.thought.clone(),
+                result: None,
+            }
+        ).await;
+        StatusCode::OK
+    }
+}
+
+async fn handle_agent_complete(
+    State(state): State<AppState>,
+    Json(payload): Json<AgentCompletePayload>,
+) -> StatusCode {
+    info!("Agent Complete: {:?}", payload);
+
+    if let Err(e) = state.agents.update_status_and_result(
+        &payload.agent_id,
+        AgentStatus::Completed,
+        payload.result_summary.clone(),
+    ) {
+        error!("Failed to update agent status for completion: {}", e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    } else {
+        state.sessions.publish(
+            &payload.session_id,
+            WsEvent::AgentStatusUpdate {
+                session_id: payload.session_id.clone(),
+                agent_id: payload.agent_id.clone(),
+                status: "completed".to_string(),
+                progress: 100,
+                thought: None,
+                result: payload.result_summary.clone(),
+            }
+        ).await;
+        StatusCode::OK
+    }
 }
 
 async fn list_projects(State(state): State<AppState>) -> Json<GlobalProjectRegistry> {
@@ -187,8 +252,9 @@ async fn create_project_session(
     };
 
     let session =
-        create_or_get_session_for_project(&state, &project.project_root, &project.project_name);
+        create_or_get_session_for_project(&state, &project.project_root, &project.project_name).await; // Await here
     Ok(Json(ProjectSessionResponse { session }))
+
 }
 
 async fn list_profiles(State(state): State<AppState>) -> Json<ProfileListResponse> {
@@ -287,4 +353,20 @@ struct DebugSpawnPayload {
 #[derive(Serialize)]
 struct DebugSpawnResponse {
     agent_id: String,
+}
+
+// --- Agent Communication Payloads ---
+#[derive(Deserialize, Debug)]
+pub struct AgentReportPayload {
+    pub agent_id: String,
+    pub session_id: String,
+    pub progress: u8,
+    pub thought: Option<String>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct AgentCompletePayload {
+    pub agent_id: String,
+    pub session_id: String,
+    pub result_summary: Option<String>,
 }
