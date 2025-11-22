@@ -1,0 +1,33 @@
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Loaded cached credentials.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 0s.. Retrying after 920.779399ms...
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: Okay, I am the Root Orchestrator. My goal is to plan the development of vibe-terminal. I need to analyze the project state and define the immediate goals. I will start by asking the user for clarification on the immediate goals.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Error executing tool vibe_ask: Tool "vibe_ask" not found in registry. Tools must use the exact names that are registered. Did you mean one of: "replace", "write_file", "read_file"?
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4364.805707ms...
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: My apologies, I seem to have attempted to use a tool that does not exist. I will rephrase my approach to use the tools that are available to me.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: 
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: Okay, I am the Root Orchestrator. My goal is to plan the development of vibe-terminal. I need to analyze the project state and define the immediate goals. Based on the information available in GEMINI.md, the current focus is Phase 6.1: Stabilizing "Rambo Mode" & Multi-Provider Support. I will generate a task list based on the immediate next steps outlined in the PAUSE STATE section of GEMINI.md.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3714.138615ms...
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: I have created the `tasks.json` file containing the next steps for the project.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Error executing tool vibe_complete: Tool "vibe_complete" not found in registry. Tools must use the exact names that are registered. Did you mean one of: "replace", "write_file", "read_file"?
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4633.820786ms...
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: I apologize, I seem to have attempted to use a tool that does not exist. I will rephrase my approach to use the tools that are available to me.
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: 
+[cca607fc-dfb1-4b67-bfb5-4395a483916e] STDOUT: Okay, I have created the `tasks.json` file containing the next steps for the project. I am unable to signal completion to the server, but the file has been created.

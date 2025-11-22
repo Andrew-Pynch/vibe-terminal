@@ -5,15 +5,17 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 pub mod dummy;
+pub mod adapters;
 
 pub type LlmStream = Pin<Box<dyn Stream<Item = Result<String, LlmError>> + Send>>;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ProviderKind {
-    OpenAi,
-    Anthropic,
     Dummy,
+    Gemini,
+    Claude,
+    Codex,
 }
 
 impl FromStr for ProviderKind {
@@ -21,8 +23,9 @@ impl FromStr for ProviderKind {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_lowercase().as_str() {
-            "openai" => Ok(ProviderKind::OpenAi),
-            "anthropic" => Ok(ProviderKind::Anthropic),
+            "gemini" => Ok(ProviderKind::Gemini),
+            "claude" => Ok(ProviderKind::Claude),
+            "codex" => Ok(ProviderKind::Codex),
             "dummy" => Ok(ProviderKind::Dummy),
             other => Err(LlmError::UnknownProvider(other.to_string())),
         }
@@ -91,7 +94,7 @@ impl LlmRegistry {
     pub fn stream(&self, request: LlmRequest) -> Result<LlmStream, LlmError> {
         match request.config.provider {
             ProviderKind::Dummy => Ok(self.dummy.stream(&request)),
-            ProviderKind::OpenAi | ProviderKind::Anthropic => Err(LlmError::ProviderNotConfigured),
+            ProviderKind::Gemini | ProviderKind::Claude | ProviderKind::Codex => Err(LlmError::ProviderNotConfigured),
         }
     }
 }

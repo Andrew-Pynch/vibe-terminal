@@ -1,0 +1,5 @@
+{"tasks": [
+    { "id": "rate-limit-verify", "description": "Verify Rate Limit Fix: Start the server and trigger a session to confirm if the 5s delay allows all 4 agents to run without crashing.", "agent_type": "worker" },
+    { "id": "multi-provider-investigation", "description": "Multi-Provider Investigation: Investigate `claude --help` and other CLI tools to design a generic `ProviderAdapter` trait for the Rust server (abstracting away the specific CLI flags like `-p` vs `--prompt`).", "agent_type": "worker" }
+  ]
+}

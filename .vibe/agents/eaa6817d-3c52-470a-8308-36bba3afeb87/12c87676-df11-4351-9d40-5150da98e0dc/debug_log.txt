@@ -1,0 +1,25 @@
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Loaded cached credentials.
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 2697.861528ms...
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5834.325567999999ms...
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: Error when talking to Gemini API Full report available at: /var/folders/87/3jgz36rn5hg_m_2d230hs3z00000gn/T/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T19-07-59-250Z.json
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: [API Error: You have exhausted your capacity on this model. Your quota will reset after 5s.]
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: An unexpected critical error occurred:
+[12c87676-df11-4351-9d40-5150da98e0dc] STDERR: [object Object]

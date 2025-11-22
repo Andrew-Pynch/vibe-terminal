@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "bin": {
-    "agent-hub": "./dist/index.js"
+    "agent-hub": "./dist/apps/cli/src/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -19,6 +19,8 @@
     "ws": "^8.16.0"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.7.1",
     "typescript": "^5.4.5"
   }

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
 /// Represents the status of an agent.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -10,6 +11,21 @@ pub enum AgentStatus {
     Completed,
     Failed(String),
     Terminated,
+    WaitingForInteraction, // Added status
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum InteractionStatus {
+    Pending,
+    Resolved,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Interaction {
+    pub id: String,
+    pub description: String, // The question asked
+    pub result: Option<String>, // The answer provided
+    pub status: InteractionStatus,
 }
 
 /// Represents a single agent instance.
@@ -23,6 +39,7 @@ pub struct Agent {
     pub result: Option<String>,
     pub progress: Option<u8>,
     pub last_thought: Option<String>,
+    pub pending_interaction: Option<Interaction>, // Added interaction field
 }
 
 impl Agent {
@@ -36,6 +53,7 @@ impl Agent {
             result: None,
             progress: Some(0),
             last_thought: None,
+            pending_interaction: None,
         }
     }
 }
@@ -137,6 +155,70 @@ impl AgentRegistry {
         } else {
             Err(format!("Agent with ID {} not found", agent_id))
         }
+    }
+
+    pub fn set_pending_interaction(&self, agent_id: &str, description: String) -> Result<String, String> {
+        let mut agents = self.agents.lock().unwrap();
+        if let Some(agent) = agents.get_mut(agent_id) {
+            let interaction_id = Uuid::new_v4().to_string();
+            agent.pending_interaction = Some(Interaction {
+                id: interaction_id.clone(),
+                description,
+                result: None,
+                status: InteractionStatus::Pending,
+            });
+            agent.status = AgentStatus::WaitingForInteraction;
+            Ok(interaction_id)
+        } else {
+            Err(format!("Agent with ID {} not found", agent_id))
+        }
+    }
+
+    pub fn resolve_interaction(&self, interaction_id: &str, answer: String) -> Result<(), String> {
+        let mut agents = self.agents.lock().unwrap();
+        // Find the agent with this pending interaction
+        let agent_id = agents.values()
+            .find(|a| a.pending_interaction.as_ref().map_or(false, |i| i.id == interaction_id))
+            .map(|a| a.id.clone());
+
+        if let Some(id) = agent_id {
+            let agent = agents.get_mut(&id).unwrap();
+            if let Some(interaction) = &mut agent.pending_interaction {
+                interaction.result = Some(answer);
+                interaction.status = InteractionStatus::Resolved;
+            }
+            agent.status = AgentStatus::Running; // Resume running
+            Ok(())
+        } else {
+            Err(format!("Interaction with ID {} not found", interaction_id))
+        }
+    }
+
+    pub fn get_interaction_status(&self, interaction_id: &str) -> Option<Interaction> {
+        let agents = self.agents.lock().unwrap();
+        agents.values()
+            .find_map(|a| {
+                if let Some(i) = &a.pending_interaction {
+                    if i.id == interaction_id {
+                        return Some(i.clone());
+                    }
+                }
+                None
+            })
+    }
+
+    pub fn get_pending_interactions(&self) -> Vec<Interaction> {
+        let agents = self.agents.lock().unwrap();
+        agents.values()
+            .filter_map(|a| {
+                if let Some(i) = &a.pending_interaction {
+                    if i.status == InteractionStatus::Pending {
+                        return Some(i.clone());
+                    }
+                }
+                None
+            })
+            .collect()
     }
 }
 

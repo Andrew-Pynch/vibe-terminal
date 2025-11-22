@@ -79,14 +79,12 @@ pub async fn create_or_get_session_for_project(
 
     // 3. Async operations (Spawn) - Lock is released
     if should_spawn {
-        let command = "gemini".to_string();
-        let args = vec![
-            "-p".to_string(),
-            "INSTRUCTION.md".to_string(),
-            "--yolo".to_string(),
-            "-m".to_string(),
-            state.config.default_llm.model.clone(),
-        ];
+        let adapter = crate::llm::adapters::get_adapter(&state.config.default_llm.provider);
+        let command = adapter.get_command();
+        let args = adapter.get_args(
+            "INSTRUCTION.md", 
+            &state.config.default_llm.model
+        );
         
         let agent_id = Uuid::new_v4().to_string();
         let server_url = format!("http://{}:{}", state.config.host, state.config.http_port);
@@ -95,13 +93,20 @@ pub async fn create_or_get_session_for_project(
         let instruction = format!(
             r#"You are the Root Orchestrator Vibe agent (ID: {}). Your goal is to plan the development of this project: '{}'.
 
-You have the following tools available via shell commands:
-- `vibe-report --agent-id {} --session-id {} --progress <percentage> --thought "<message>"`: Report your current progress and thought process to the server.
-- `vibe-complete --agent-id {} --session-id {} --result "<summary>"`: Signal that you have completed your task, optionally with a summary.
-- All other standard shell commands, including `read_file`, `write_file`, `glob`, `search_file_content`, etc.
+You have access to the following Vibe utilities, which are executable binaries in your PATH:
+- `vibe-report --agent-id {} --session-id {} --progress <percentage> --thought "<message>"`
+- `vibe-ask --agent-id {} --session-id {} --question "<question>"` (Blocks until user replies)
+- `vibe-complete --agent-id {} --session-id {} --result "<summary>"`
 
-Your first task is to analyze the project state (currently empty or initialized) and outline the next development steps.
-Output a JSON object with a 'tasks' array describing the next steps.
+**IMPORTANT:** To use these utilities, you MUST use the `run_shell_command` tool. 
+For example, to ask a question, you would call:
+`run_shell_command(command="vibe-ask --agent-id ... --question ...")`
+
+Do NOT try to call `vibe_ask` as a direct tool function; it will fail.
+
+Your first task is to analyze the project state and interact with the user to define the immediate goals.
+Use `vibe-ask` to gather requirements if they are vague.
+Once you have a clear plan, output a JSON object with a 'tasks' array describing the next steps.
 Each task should have an 'id' (string), 'description' (string), and optional 'agent_type' (string).
 
 Example:
@@ -116,6 +121,7 @@ Example:
             agent_id,
             project_name,
             agent_id, session_id,
+            agent_id, session_id,
             agent_id, session_id
         );
 
@@ -127,6 +133,22 @@ Example:
         env_vars.insert("AGENT_ID".to_string(), agent_id.clone());
         env_vars.insert("SESSION_ID".to_string(), session_id.clone());
 
+        // Inject PATH to include shim binaries
+        if let Ok(current_dir) = env::current_dir() {
+             let shim_dir = if current_dir.join("server/Cargo.toml").exists() {
+                current_dir.join("server/target/debug")
+            } else {
+                current_dir.join("target/debug")
+            };
+            
+            if let Ok(current_path) = env::var("PATH") {
+                let new_path = format!("{}:{}", shim_dir.to_string_lossy(), current_path);
+                env_vars.insert("PATH".to_string(), new_path);
+            } else {
+                env_vars.insert("PATH".to_string(), shim_dir.to_string_lossy().to_string());
+            }
+        }
+
         match state.agent_spawner.spawn_agent(
             session_id.clone(),
             "orchestrator".to_string(),
@@ -134,6 +156,7 @@ Example:
             command,
             args,
             env_vars,
+            Some(agent_id)
         ).await {
             Ok(spawned_agent_id) => info!("Root Orchestrator agent {} spawned for session {}", spawned_agent_id, session_id),
             Err(e) => error!("Failed to spawn Root Orchestrator for session {}: {}", session_id, e),

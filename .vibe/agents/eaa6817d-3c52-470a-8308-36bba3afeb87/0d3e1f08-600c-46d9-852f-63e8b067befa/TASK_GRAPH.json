@@ -1,0 +1,6 @@
+{
+  "tasks": [
+    { "id": "verify-rate-limit", "description": "Verify the 5-second delay mitigates Gemini API rate limits in Rambo mode.", "agent_type": "worker" },
+    { "id": "investigate-multi-provider", "description": "Investigate CLI tools like `claude --help` to design a generic `ProviderAdapter` trait for the Rust server.", "agent_type": "worker" }
+  ]
+}

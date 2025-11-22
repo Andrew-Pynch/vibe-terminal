@@ -20,7 +20,7 @@ use crate::{
     },
     sessions::{SessionCreateParams, SessionDetail, SessionSummary, WsEvent},
     state::AppState,
-    agents::registry::{AgentStatus, AgentRegistry}, // Added AgentRegistry for AgentStatus and registry methods
+    agents::registry::{AgentStatus, AgentRegistry, Interaction}, // Added AgentRegistry for AgentStatus and registry methods
 };
 use std::{collections::HashMap, env, str::FromStr};
 use tracing::{info, error}; // Added for logging in handlers
@@ -41,12 +41,22 @@ pub fn router(state: AppState) -> Router {
         // --- New routes for agent communication ---
         .route("/agent/report", post(handle_agent_report))
         .route("/agent/complete", post(handle_agent_complete))
+        .route("/agent/ask", post(handle_agent_ask))
+        .route("/agent/ask/:id", get(handle_agent_ask_status))
+        .route("/agent/interactions/pending", get(handle_list_pending_interactions))
+        .route("/interactions/:id/reply", post(handle_interaction_reply))
         .with_state(state.clone())
         .layer(from_fn_with_state(state, guard_shared_secret))
 }
 
 async fn health() -> Json<HealthResponse> {
     Json(HealthResponse { status: "ok" })
+}
+
+async fn handle_list_pending_interactions(
+    State(state): State<AppState>,
+) -> Json<Vec<Interaction>> {
+    Json(state.agents.get_pending_interactions())
 }
 
 async fn debug_spawn_agent(
@@ -88,7 +98,8 @@ async fn debug_spawn_agent(
             payload.instruction,
             command,
             args,
-            env_vars
+            env_vars,
+            None // No ID override for debug spawn
         ).await // Await here
         .map_err(|e| {
             tracing::error!("Failed to spawn agent: {}", e);
@@ -154,6 +165,59 @@ async fn handle_agent_complete(
             }
         ).await;
         StatusCode::OK
+    }
+}
+
+async fn handle_agent_ask(
+    State(state): State<AppState>,
+    Json(payload): Json<AgentAskPayload>,
+) -> Result<Json<AgentAskResponse>, StatusCode> {
+    info!("Agent Ask: {:?}", payload);
+    match state.agents.set_pending_interaction(&payload.agent_id, payload.question) {
+        Ok(interaction_id) => {
+            state.sessions.publish(
+                &payload.session_id,
+                WsEvent::AgentStatusUpdate {
+                    session_id: payload.session_id.clone(),
+                    agent_id: payload.agent_id.clone(),
+                    status: "waiting_for_interaction".to_string(),
+                    progress: 0, // Can be improved
+                    thought: Some("Waiting for user input...".to_string()),
+                    result: None,
+                }
+            ).await;
+            Ok(Json(AgentAskResponse { interaction_id }))
+        },
+        Err(e) => {
+            error!("Failed to set interaction: {}", e);
+            Err(StatusCode::NOT_FOUND)
+        }
+    }
+}
+
+async fn handle_agent_ask_status(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+) -> Result<Json<Interaction>, StatusCode> {
+    if let Some(interaction) = state.agents.get_interaction_status(&id) {
+        Ok(Json(interaction))
+    } else {
+        Err(StatusCode::NOT_FOUND)
+    }
+}
+
+async fn handle_interaction_reply(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+    Json(payload): Json<InteractionReplyPayload>,
+) -> StatusCode {
+    info!("Interaction Reply: {:?}", id);
+    match state.agents.resolve_interaction(&id, payload.answer) {
+        Ok(_) => StatusCode::OK,
+        Err(e) => {
+            error!("Failed to resolve interaction: {}", e);
+            StatusCode::NOT_FOUND
+        }
     }
 }
 
@@ -369,4 +433,21 @@ pub struct AgentCompletePayload {
     pub agent_id: String,
     pub session_id: String,
     pub result_summary: Option<String>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct AgentAskPayload {
+    pub agent_id: String,
+    pub session_id: String,
+    pub question: String,
+}
+
+#[derive(Serialize)]
+pub struct AgentAskResponse {
+    pub interaction_id: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct InteractionReplyPayload {
+    pub answer: String,
 }

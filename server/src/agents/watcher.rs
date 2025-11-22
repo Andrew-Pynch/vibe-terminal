@@ -110,75 +110,50 @@ impl ResultWatcher {
                             // info!("Updated status and result for agent {}", agent_id);
                         }
 
-                                                                                                // Update ProjectSession
+                        // Update ProjectSession
+                        let mut project_sessions_guard = self.project_sessions.write();
+                        if let Some(session) = project_sessions_guard.get_mut(session_id) {
+                            // info!("Updating latest_result for session {}: {}", session_id, result_content);
+                            session.latest_result = Some(result_content.clone());
+                        }
+                        drop(project_sessions_guard); // Drop lock before async calls
 
-                                                                                                let mut project_sessions_guard = self.project_sessions.write();
+                        // Try to parse task graph from RESULT.md if it contains one
+                        // This is a fallback/heuristic if the agent writes it to RESULT.md instead of TASK_GRAPH.json
+                        if result_content.contains("\"tasks\"") {
+                            // Try extracting JSON block
+                            let json_str = if let Some(start) = result_content.find("```json") {
+                                if let Some(end) = result_content[start..].find("```") {
+                                    // Be careful with indices here, finding the SECOND ```
+                                    let block = &result_content[start..];
+                                    if let Some(end_block) = block[7..].find("```") {
+                                        &block[7..7+end_block]
+                                    } else {
+                                        ""
+                                    }
+                                } else { "" }
+                            } else {
+                                &result_content
+                            };
 
-                                                                                                if let Some(session) = project_sessions_guard.get_mut(session_id) {
+                            if let Ok(task_graph) = serde_json::from_str::<TaskGraph>(json_str.trim()) {
+                                info!("Detected embedded TaskGraph in RESULT.md. Dispatching...");
+                                let dispatcher_clone = self.dispatcher.clone();
+                                let session_id_string = session_id.to_string();
+                                tokio::spawn(async move {
+                                    dispatcher_clone.dispatch(session_id_string, task_graph).await;
+                                });
+                            }
+                        }
 
-                                                                                                    // info!("Updating latest_result for session {}: {}", session_id, result_content);
-
-                                                                                                    session.latest_result = Some(result_content.clone());
-
-                                                                                                }
-
-                                                                                                
-
-                                                                                                // Try to parse task graph from RESULT.md if it contains one
-
-                                                                                                // This is a fallback/heuristic if the agent writes it to RESULT.md instead of TASK_GRAPH.json
-
-                                                                                                 if result_content.contains("\"tasks\"") {
-
-                                                                                                    // Try extracting JSON block
-
-                                                                                                     let json_str = if let Some(start) = result_content.find("```json") {
-
-                                                                                                         if let Some(end) = result_content[start..].find("```") {
-
-                                                                                                             // Be careful with indices here, finding the SECOND ```
-
-                                                                                                             let block = &result_content[start..];
-
-                                                                                                              if let Some(end_block) = block[7..].find("```") {
-
-                                                                                                                  &block[7..7+end_block]
-
-                                                                                                              } else {
-
-                                                                                                                  ""
-
-                                                                                                              }
-
-                                                                                                         } else { "" }
-
-                                                                                                     } else {
-
-                                                                                                         &result_content
-
-                                                                                                     };
-
-                                                                        
-
-                                                                                                     if let Ok(task_graph) = serde_json::from_str::<TaskGraph>(json_str.trim()) {
-
-                                                                                                         info!("Detected embedded TaskGraph in RESULT.md. Dispatching...");
-
-                                                                                                         let dispatcher_clone = self.dispatcher.clone();
-
-                                                                                                         let session_id_string = session_id.to_string();
-
-                                                                                                         tokio::spawn(async move {
-
-                                                                                                             dispatcher_clone.dispatch(session_id_string, task_graph).await;
-
-                                                                                                         });
-
-                                                                                                     }
-
-                                                                                                 }
-
-                                                                                            },
+                        // Notify Dispatcher that an agent has completed
+                        // This triggers the next task in the queue if this was a worker
+                        let dispatcher_clone = self.dispatcher.clone();
+                        let agent_id_string = agent_id.to_string();
+                        tokio::spawn(async move {
+                            dispatcher_clone.on_agent_complete(&agent_id_string).await;
+                        });
+                    },
                     Some("TASK_GRAPH.json") => {
                         info!("Detected TASK_GRAPH.json update: {:?}", path);
                         

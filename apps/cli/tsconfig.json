@@ -2,10 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": "../../",
     "moduleResolution": "NodeNext",
-    "module": "ESNext",
-    "declaration": true
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "baseUrl": "../../",
+    "paths": {
+        "@agent-hub/protocol": ["packages/protocol/src/index.ts"],
+        "@agent-hub/config": ["packages/config/src/index.ts"]
+    }
   },
   "include": [
     "src"

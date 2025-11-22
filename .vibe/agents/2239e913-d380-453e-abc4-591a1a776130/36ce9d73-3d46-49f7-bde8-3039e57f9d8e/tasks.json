@@ -1,0 +1,6 @@
+{
+  "tasks": [
+    { "id": "verify-rate-limit", "description": "Start the server and trigger a session to verify the 5s delay fixes the Gemini API rate limit issue.", "agent_type": "worker" },
+    { "id": "investigate-multi-provider", "description": "Investigate CLI tools like 'claude' and design a generic ProviderAdapter trait for the Rust server to support multiple providers.", "agent_type": "worker" }
+  ]
+}

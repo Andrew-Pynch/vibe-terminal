@@ -1,0 +1,25 @@
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Loaded cached credentials.
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3956.136089ms...
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5826.432212000001ms...
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: Error when talking to Gemini API Full report available at: /var/folders/87/3jgz36rn5hg_m_2d230hs3z00000gn/T/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T17-52-59-232Z.json
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: [API Error: You have exhausted your capacity on this model. Your quota will reset after 5s.]
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: An unexpected critical error occurred:
+[ecd5ccb4-fbee-4ecf-9a55-bda287c87b53] STDERR: [object Object]

@@ -1,0 +1,34 @@
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Loaded cached credentials.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5943.074957000001ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5000.029875ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4840.137194000001ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4443.418662ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: I made a mistake in the `vibe-complete` command. It should be `--result-summary` instead of `--result`.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: 
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4565.854764ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: The `vibe-complete` command returned an error. It seems the server is not running or is not accessible at the specified address. I will try again, but first I will check the server logs.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Error executing tool read_file: File path must be within one of the workspace directories: /Users/andrewpynch/personal/vibe-terminal/.vibe/agents/52c3dcd2-3988-48d4-8688-5d9d0a44fb8a/90290ccb-bfa6-44f3-8313-aee28fe3b709 or within the project temp directory: /Users/andrewpynch/.gemini/tmp/467e5d44e0bd88290041b1c2eb281de87907eccd632f8d699270530602eddf86
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4937.378027000001ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: I cannot access the server log file directly. I will try running the `vibe-complete` command again, assuming the server might have been temporarily unavailable.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4598.843204ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: The `vibe-complete` command continues to fail, indicating a likely issue with the server. Since I cannot directly access the server logs or restart the server, I will report the file listing as complete, acknowledging the potential server-side issue.
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4729.544839ms...
+[90290ccb-bfa6-44f3-8313-aee28fe3b709] STDOUT: I have listed the files and reported the output. Although I was unable to use `vibe-complete` due to a potential server issue, I have provided the requested information.

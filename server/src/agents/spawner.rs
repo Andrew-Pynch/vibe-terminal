@@ -25,9 +25,13 @@ impl AgentSpawner {
         instruction: String,
         command_str: String, 
         args: Vec<String>,
-        env_vars: HashMap<String, String>
+        env_vars: HashMap<String, String>,
+        agent_id_override: Option<String>,
     ) -> Result<String, String> {
         let mut agent = Agent::new(session_id.clone(), agent_type.clone());
+        if let Some(id) = agent_id_override {
+            agent.id = id;
+        }
         let agent_id = agent.id.clone();
         
         let agent_dir = self.base_dir.join(".vibe").join("agents").join(&session_id).join(&agent_id);

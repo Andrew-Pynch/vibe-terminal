@@ -1,0 +1,6 @@
+{
+  "tasks": [
+    { "id": "rate-limit-1", "description": "Verify that the 5-second delay between worker spawns resolves the Gemini API rate limit issue.", "agent_type": "worker" },
+    { "id": "multi-provider-1", "description": "Investigate the 'claude --help' CLI tool and design a generic ProviderAdapter trait for the Rust server.", "agent_type": "worker" }
+  ]
+}

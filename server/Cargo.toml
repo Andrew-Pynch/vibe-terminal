@@ -11,6 +11,10 @@ path = "src/shims/vibe_report.rs"
 name = "vibe-complete"
 path = "src/shims/vibe_complete.rs"
 
+[[bin]]
+name = "vibe-ask"
+path = "src/shims/vibe_ask.rs"
+
 [dependencies]
 anyhow = "1.0"
 axum = { version = "0.7", features = ["macros", "ws", "json"] }

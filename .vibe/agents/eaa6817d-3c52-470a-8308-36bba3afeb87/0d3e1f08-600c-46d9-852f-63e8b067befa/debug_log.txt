@@ -1,0 +1,48 @@
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Loaded cached credentials.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3112.1120640000004ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: Okay, I need to analyze the project state and interact with the user to define the immediate goals, then output a JSON object with a 'tasks' array describing the next steps.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: Based on the context in `GEMINI.md`, the current focus is Phase 6.1: Stabilizing "Rambo Mode" & Multi-Provider Support. The "Rambo Mode" architecture is proven to work, but we hit Gemini API rate limits. A 5-second delay was added but not fully verified. Also, multi-provider support needs investigation.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: Therefore, the immediate goals are to verify the rate limit fix and investigate multi-provider support.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3831.025697ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4166.244683999999ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: The `vibe-report` command failed with a 500 error. This likely means the server is not running or is not accessible. I will attempt to start the server in the background.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4346.95212ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: The `bun run start` command failed because the `start` script was not found. I need to figure out the correct command to start the server. I'll look at the `package.json` file in the project root to determine the correct start command.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Error executing tool read_file: File path must be within one of the workspace directories: /Users/andrewpynch/personal/vibe-terminal/.vibe/agents/eaa6817d-3c52-470a-8308-36bba3afeb87/0d3e1f08-600c-46d9-852f-63e8b067befa or within the project temp directory: /Users/andrewpynch/.gemini/tmp/0ba46f218ad0d88185f86b065bcc1ab56eed066ee8bd3e5bfe98bd478a12d9b5
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4957.175412ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: I made a mistake in the `read_file` call. I need to provide the absolute path to the `package.json` file.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Error executing tool read_file: File path must be within one of the workspace directories: /Users/andrewpynch/personal/vibe-terminal/.vibe/agents/eaa6817d-3c52-470a-8308-36bba3afeb87/0d3e1f08-600c-46d9-852f-63e8b067befa or within the project temp directory: /Users/andrewpynch/.gemini/tmp/0ba46f218ad0d88185f86b065bcc1ab56eed066ee8bd3e5bfe98bd478a12d9b5
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4981.0450169999995ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: I am still having trouble accessing the `package.json` file, likely due to workspace restrictions. I need to ask the user what the correct command is to start the server.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4285.7514280000005ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: I seem to be having trouble with the `vibe-ask` command. I think the problem is that I'm trying to pass a JSON object as a string, but the `vibe-ask` tool probably expects the question directly. I'll try again with just the question.
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3740.345252ms...
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: The user has provided the following information:
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: 
+[0d3e1f08-600c-46d9-852f-63e8b067befa] STDOUT: The correct command to start the server is `bun run dev`.

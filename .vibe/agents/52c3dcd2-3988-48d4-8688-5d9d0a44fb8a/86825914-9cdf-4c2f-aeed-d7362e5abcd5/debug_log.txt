@@ -1,0 +1,25 @@
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Loaded cached credentials.
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4732.706308ms...
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDOUT: Okay, I need to output a JSON object with a `tasks` array containing four tasks, each asking the worker to list files in the directory.
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDOUT: 
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4182.383454ms...
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4670.3573240000005ms...
+[86825914-9cdf-4c2f-aeed-d7362e5abcd5] STDOUT: I have written the task list to `RESULT.md`.

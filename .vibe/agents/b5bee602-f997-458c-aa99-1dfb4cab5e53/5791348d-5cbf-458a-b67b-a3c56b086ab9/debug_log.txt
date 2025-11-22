@@ -1,0 +1,31 @@
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Loaded cached credentials.
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 2116.24586ms...
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: Okay, I need to output a JSON object with a `tasks` array containing four tasks, each asking the worker to list files in the directory.
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: 
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3781.016332ms...
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: Okay, I need to output a JSON object with a 'tasks' array containing four tasks. Each task will have an 'id', a 'description' of "list the files in the directory", and an 'agent_type' of "worker".
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3859.744858ms...
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: I have created the `RESULT.md` file with the requested JSON content. I am now complete.
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4656.621019ms...
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: The `vibe-complete` command failed because it was not found. This is likely because the current working directory is not in the system's PATH. I should try to execute the command with the full path to the executable, assuming it's located in the project root directory. I will first check the root directory, and then attempt the `vibe-complete` command again.
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Error executing tool list_directory: Path must be within one of the workspace directories: /Users/andrewpynch/personal/vibe-terminal/.vibe/agents/b5bee602-f997-458c-aa99-1dfb4cab5e53/5791348d-5cbf-458a-b67b-a3c56b086ab9
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4596.757788ms...
+[5791348d-5cbf-458a-b67b-a3c56b086ab9] STDOUT: Okay, I cannot list the root directory. It seems like I am constrained within my agent directory. I will ask the user for the correct path to `vibe-complete`.

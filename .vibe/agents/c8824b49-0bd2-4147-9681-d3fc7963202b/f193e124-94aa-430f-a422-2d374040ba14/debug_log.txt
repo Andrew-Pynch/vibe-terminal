@@ -1,0 +1,37 @@
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: YOLO mode is enabled. All tool calls will be automatically approved.
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async performInitialAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/auth.js:18:9)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async initializeApp (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/core/initializer.js:18:23)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:303:38)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Loaded cached credentials.
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Failed to load API key from storage: Error: Token file corrupted
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at FileTokenStorage.loadTokens (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:65:23)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async FileTokenStorage.getCredentials (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/mcp/token-storage/file-token-storage.js:78:24)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async loadApiKey (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/apiKeyCredentialStorage.js:16:29)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async createContentGeneratorConfig (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/core/contentGenerator.js:22:27)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async Config.refreshAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli-core/dist/src/config/config.js:434:43)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async validateNonInteractiveAuth (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/validateNonInterActiveAuth.js:44:9)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR:     at async main (file:///Users/andrewpynch/.bun/install/global/node_modules/@google/gemini-cli/dist/src/gemini.js:356:38)
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 2191.133465ms...
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: Okay, I understand my role as the Root Orchestrator Vibe agent. My task is to analyze the project state, define immediate goals by interacting with the user, and then output a JSON object with a 'tasks' array describing the next steps.
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: 
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: Given the current project status from `GEMINI.md`, we are in Phase 6. The goal of Phase 6 is to switch to native `gemini` CLI workers with MCP-style signaling. The immediate next steps outlined in `GEMINI.md` are:
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: 
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: 1. Verify Rate Limit Fix: Start the server and trigger a session to confirm if the 5s delay allows all 4 agents to run without crashing.
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: 2. Multi-Provider Investigation: Investigate `claude --help` and other CLI tools to design a generic `ProviderAdapter` trait for the Rust server (abstracting away the specific CLI flags like `-p` vs `--prompt`).
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: 
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: I will now create a task list based on these steps.
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 3607.281365ms...
+[f193e124-94aa-430f-a422-2d374040ba14] STDOUT: I will now output the tasks in the requested JSON format.
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 4467.169038ms...
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5170.366924ms...
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Attempt 2 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5727.31843ms...
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: Error when talking to Gemini API Full report available at: /var/folders/87/3jgz36rn5hg_m_2d230hs3z00000gn/T/gemini-client-error-Turn.run-sendMessageStream-2025-11-22T20-33-47-229Z.json
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: [API Error: You have exhausted your capacity on this model. Your quota will reset after 5s.]
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: An unexpected critical error occurred:
+[f193e124-94aa-430f-a422-2d374040ba14] STDERR: [object Object]

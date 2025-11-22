@@ -10,6 +10,9 @@ import {
 } from "@agent-hub/protocol";
 import { AgentHubConfig, resolveConfig } from "@agent-hub/config";
 import { fetch } from "undici";
+import * as fs from "fs";
+import * as path from "path";
+import * as os from "os";
 
 const program = new Command();
 program.name("agent-hub").description("Interact with the local Agent Hub server");
@@ -54,6 +57,53 @@ async function httpRequest<T>(
 
   return (await response.json()) as T;
 }
+
+program
+  .command("init")
+  .description("Initialize a new Vibe project in the current directory")
+  .action(async () => {
+    const projectRoot = process.cwd();
+    const projectName = path.basename(projectRoot);
+    
+    // 1. Ensure .vibe/global/projects.json exists and register this project
+    const homeDir = os.homedir();
+    const globalVibeDir = path.join(homeDir, ".vibe", "global");
+    const projectsFile = path.join(globalVibeDir, "projects.json");
+
+    if (!fs.existsSync(globalVibeDir)) {
+      fs.mkdirSync(globalVibeDir, { recursive: true });
+    }
+
+    let projectsData = { version: 1, projects: [] };
+    if (fs.existsSync(projectsFile)) {
+      try {
+        projectsData = JSON.parse(fs.readFileSync(projectsFile, "utf-8"));
+      } catch (e) {
+        console.warn("Failed to parse existing projects.json, creating new one.");
+      }
+    }
+
+    const existingIdx = projectsData.projects.findIndex(
+      (p: any) => p.project_root === projectRoot
+    );
+
+    const projectEntry = {
+      project_root: projectRoot,
+      project_name: projectName,
+      last_seen: new Date().toISOString(),
+    };
+
+    if (existingIdx >= 0) {
+      (projectsData.projects as any[])[existingIdx] = projectEntry;
+      console.log(`Updated existing project registration for ${projectName}`);
+    } else {
+      (projectsData.projects as any[]).push(projectEntry);
+      console.log(`Registered new project ${projectName}`);
+    }
+
+    fs.writeFileSync(projectsFile, JSON.stringify(projectsData, null, 2));
+    console.log(`Project initialized in ${projectRoot}`);
+  });
 
 const sessionsCommand = program.command("sessions").description("Manage sessions");
 
